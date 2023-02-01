@@ -1,0 +1,126 @@
+{% extends "main.html" %}
+
+{% block content %}
+<div class="mb-4 flex justify-between">
+  <h2 class="text-2xl font-medium">
+    Recent Launches
+  </h2>
+  <div class="flex gap-4">
+    <button data-modal-target="createPushModal" data-modal-toggle="createPushModal"
+      class=" text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 inline-flex items-center"
+      type="button">
+      Start a Launch
+    </button>
+  </div>
+</div>
+<div class="overflow-hidden bg-white rounded-lg border border-gray-200">
+  <ul>
+    {% for push in pushes%}
+    <li class=" border-b last:border-b-0">
+      <div class="px-4 py-5 sm:px-6 flex items-center">
+        <div class="py-2 grow">
+          <div class="flex flex-row">
+            <div>
+              <h3 class="text-lg font-normal leading-6 text-blue-600">{{push.description}}</h3>
+            </div>
+          </div>
+          {% if push.status == 'Complete'%}
+          <div class="relative pt-1 mt-4">
+            <div class="flex mb-2 items-center justify-between">
+              <div>
+                <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-green-600 bg-green-200">
+                  {{push.status}}
+                </span>
+              </div>
+              <div class="text-right">
+                <span class="text-xs font-semibold inline-block text-green-600">
+                  {% if push.percent != None %}{{push.percent}}{% else %}0{% endif %}%
+                </span>
+              </div>
+            </div>
+            <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-green-200">
+              <div style="width:{% if push.percent != None %}{{push.percent}}{% else %}0{% endif %}%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-green-500"></div>
+            </div>
+          </div>
+            {% endif %}
+            {% if push.status == 'In Progress'%}
+            <div class="relative pt-1 mt-4">
+              <div class="flex mb-2 items-center justify-between">
+                <div>
+                  <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blue-600 bg-blue-200">
+                    {{push.status}}
+                  </span>
+                </div>
+                <div class="text-right">
+                  <span class="text-xs font-semibold inline-block text-blue-600">
+                    {% if push.percent != None %}{{push.percent}}{% else %}0{% endif %}%
+                  </span>
+                </div>
+              </div>
+              <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-blue-200">
+                <div style="width:{% if push.percent != None %}{{push.percent}}{% else %}0{% endif %}%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500"></div>
+              </div>
+            </div>
+              {% endif %}
+              {% if push.status == 'Failed'%}
+              <div class="relative pt-1 mt-4">
+                <div class="flex mb-2 items-center justify-between">
+                  <div>
+                    <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-red-600 bg-red-200">
+                      {{push.status}}
+                    </span>
+                  </div>
+                  <div class="text-right">
+                    <span class="text-xs font-semibold inline-block text-red-600">
+                      {% if push.percent != None %}{{push.percent}}{% else %}0{% endif %}%
+                    </span>
+                  </div>
+                </div>
+                <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-red-200">
+                  <div style="width:{% if push.percent != None %}{{push.percent}}{% else %}0{% endif %}%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-red-500"></div>
+                </div>
+              </div>
+                {% endif %}
+                {% if push.status == 'Queued' or push.status == 'Batching'%}
+                <div class="relative pt-1 mt-4">
+                  <div class="flex mb-2 items-center justify-between">
+                    <div>
+                      <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-orange-600 bg-orange-200">
+                        {{push.status}}
+                      </span>
+                    </div>
+                    <div class="text-right">
+                      <span class="text-xs font-semibold inline-block text-orange-600">
+                        {% if push.percent != None %}{{push.percent}}{% else %}0{% endif %}%
+                      </span>
+                    </div>
+                  </div>
+                  <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-orange-200">
+                    <div style="width:{% if push.percent != None %}{{push.percent}}{% else %}0{% endif %}%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-orange-500"></div>
+                  </div>
+                </div>
+                  {% endif %}
+        </div>
+      </div>
+    </li>
+    {% endfor %}
+
+    {% if pushes|length == 0 %}
+    <li class=" border-b last:border-b-0">
+      <div class="px-4 py-5 sm:px-6 flex items-center">
+        <div class="py-2 grow">
+          <div class="flex flex-row">
+            <div>
+              <h3 class="text-base leading-6 text-gray-900">You haven't launched any data yet! <a
+                  class="underline text-blue-600" href="#" data-modal-target="createPushModal"
+                  data-modal-toggle="createPushModal">Start a Launch</a></h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </li>
+    {% endif %}
+
+  </ul>
+</div>
+{% endblock content %}
