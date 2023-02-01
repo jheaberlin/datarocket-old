@@ -91,8 +91,7 @@ def signOut(request):
 def activity(request):
     stripe.api_key = 'sk_test_51MW7X8JK24mGyo15BLUr4Kws8xXkhVdUEosBvc72Dszieigba7tgVElf16itVudtT0hEW0EmIgtbMWY9KjJhB3Ij00YA88TsTf'
     user = request.user
-    if user.stripe_plan_id != None:
-     plan = stripe.Price.retrieve(user.stripe_plan_id).nickname
+    #plan = stripe.Price.retrieve(user.stripe_plan_id).nickname
     endpoints = endpoint.objects.filter(user=user)
     page = "home"
     user = request.user
@@ -103,7 +102,7 @@ def activity(request):
         p.total = batch.objects.filter(push=p).count()
         if p.completed != 0 and p.total != 0:
             p.percent = round((p.completed / p.total) * 100, 2)
-    context = {"pushes": pushes, "page": page, "endpoints": endpoints, "plan": plan}
+    context = {"pushes": pushes, "page": page, "endpoints": endpoints}
     return render(request, "datarocket/activity.html", context) 
 
 
